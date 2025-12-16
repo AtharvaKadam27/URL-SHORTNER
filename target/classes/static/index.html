@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced URL Shortener</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="background">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+
+    <div class="container">
+      <div class="glass-card">
+        <h1><i class="fas fa-link"></i> URL Shortener</h1>
+        <p class="subtitle">Link Management</p>
+
+        <div class="input-group">
+          <i class="fas fa-search input-icon"></i>
+          <input
+            type="url"
+            id="originalUrl"
+            placeholder="Paste your long URL here..."
+            required
+          />
+        </div>
+
+        <div class="options">
+          <label for="algorithm">Hashing Algorithm:</label>
+          <div class="select-wrapper">
+            <select id="algorithm">
+              <option value="MD5">MD5</option>
+              <option value="SHA256">SHA-256</option>
+              <option value="ADLER32">Adler-32</option>
+              <option value="CRC32">CRC-32</option>
+              <option value="BASE62">Base62 (Random)</option>
+            </select>
+            <i class="fas fa-chevron-down arrow-icon"></i>
+          </div>
+        </div>
+
+        <button id="shortenBtn" onclick="shortenUrl()">
+          <span>Shorten URL</span>
+          <i class="fas fa-magic"></i>
+        </button>
+
+        <div id="resultContainer" class="result-container hidden">
+          <div class="result-box">
+            <span id="shortenedUrl"></span>
+            <button class="copy-btn" onclick="copyToClipboard()">
+              <i class="far fa-copy"></i>
+            </button>
+          </div>
+          <p class="success-msg">Link generated successfully!</p>
+        </div>
+
+        <div id="loading" class="hidden">
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
