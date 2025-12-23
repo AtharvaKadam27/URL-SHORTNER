@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Created - URL Shortener</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="background">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+
+    <div class="container result-page">
+      <div class="glass-card">
+        <div class="success-header">
+          <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <!-- <h1>URL Shortened!</h1> -->
+          <p class="subtitle">Your link is ready to share</p>
+        </div>
+
+        <!-- Short URL Display -->
+        <div class="url-display-section">
+          <label class="section-label">Short URL</label>
+          <div class="short-url-box">
+            <span id="shortUrl" class="short-url-text"></span>
+            <button
+              class="copy-btn"
+              onclick="copyShortUrl()"
+              title="Copy to clipboard"
+            >
+              <i class="far fa-copy"></i>
+            </button>
+          </div>
+          <div id="copyFeedback" class="copy-feedback hidden">
+            <i class="fas fa-check"></i> Copied to clipboard!
+          </div>
+        </div>
+
+        <!-- Original URL -->
+        <div class="info-section">
+          <label class="section-label">Original URL</label>
+          <div class="original-url-box">
+            <i class="fas fa-external-link-alt"></i>
+            <a
+              id="originalUrl"
+              href="#"
+              target="_blank"
+              class="original-url-link"
+            ></a>
+          </div>
+        </div>
+        <div class="details-grid">
+          <div class="detail-card">
+            <div class="detail-icon">
+              <i class="fas fa-calendar-plus"></i>
+            </div>
+            <div class="detail-content">
+              <span class="detail-label">Created</span>
+              <span id="createdDate" class="detail-value"></span>
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <div class="detail-icon expiry">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="detail-content">
+              <span class="detail-label">Expires</span>
+              <span id="expiryDate" class="detail-value"></span>
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <div class="detail-icon algorithm">
+              <i class="fas fa-code"></i>
+            </div>
+            <div class="detail-content">
+              <span class="detail-label">Algorithm</span>
+              <span id="algorithm" class="detail-value"></span>
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <div class="detail-icon clicks">
+              <i class="fas fa-mouse-pointer"></i>
+            </div>
+            <div class="detail-content">
+              <span class="detail-label">Total Clicks</span>
+              <span id="clickCount" class="detail-value">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expiry Countdown -->
+        <div class="countdown-section">
+          <div class="countdown-label">
+            <i class="fas fa-hourglass-half"></i>
+            Time Remaining
+          </div>
+          <div id="countdown" class="countdown-timer"></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button class="action-btn primary" onclick="copyShortUrl()">
+            <i class="fas fa-copy"></i>
+            Copy URL
+          </button>
+          <button class="action-btn secondary" onclick="refreshAnalytics()">
+            <i class="fas fa-chart-bar"></i>
+            Refresh Analytics
+          </button>
+          <button class="action-btn qr-btn" onclick="openQrPopup()">
+            <i class="fas fa-qrcode"></i>
+            Show QR Code
+          </button>
+          <button class="action-btn accent" onclick="createAnother()">
+            <i class="fas fa-plus"></i>
+            Create Another
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- URL Details -->
+
+    <!-- Hidden QR Code container for generating QR -->
+    <div id="qrCode" class="qr-code-container" style="display: none"></div>
+
+    <!-- QR Code Popup Modal -->
+    <div id="qrPopup" class="qr-popup-overlay" onclick="closeQrPopup(event)">
+      <div class="qr-popup-content">
+        <button class="qr-popup-close" onclick="closeQrPopup(event)">
+          &times;
+        </button>
+        <div id="qrCodeLarge" class="qr-code-large"></div>
+        <p class="qr-popup-hint">Scan with your phone camera</p>
+      </div>
+    </div>
+
+    <script src="result.js"></script>
+  </body>
+</html>

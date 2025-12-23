@@ -1,43 +1,96 @@
 package com.example.urlshortener.service;
 
-import com.google.common.hash.Hashing;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 import java.util.UUID;
 import java.util.zip.Adler32;
 import java.util.zip.CRC32;
+import java.util.zip.Checksum;
 
 @Service
 public class HashingService {
 
+    private static final String BASE62 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
     public String shorten(String url, String algorithm) {
         switch (algorithm.toUpperCase()) {
+
             case "MD5":
-                return Hashing.md5().hashString(url, StandardCharsets.UTF_8).toString().substring(0, 8);
+                return md5(url).substring(0, 8);
+
             case "SHA256":
-                return Hashing.sha256().hashString(url, StandardCharsets.UTF_8).toString().substring(0, 10);
+                return sha256(url).substring(0, 10);
+
             case "CRC32":
-                CRC32 crc32 = new CRC32();
-                crc32.update(url.getBytes(StandardCharsets.UTF_8));
-                return Long.toHexString(crc32.getValue());
+                return checksum(url, new CRC32());
+
             case "ADLER32":
-                Adler32 adler32 = new Adler32();
-                adler32.update(url.getBytes(StandardCharsets.UTF_8));
-                return Long.toHexString(adler32.getValue());
+                return checksum(url, new Adler32());
+
             case "BASE62":
-                // Simple random Base62-like implementation using UUID
-                return generateBase62();
+                return randomBase62(8);
+
             default:
-                // Default to CRC32 if unknown
-                CRC32 def = new CRC32();
-                def.update(url.getBytes(StandardCharsets.UTF_8));
-                return Long.toHexString(def.getValue());
+                return checksum(url, new CRC32());
         }
     }
 
-    private String generateBase62() {
-        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-        return uuid.substring(0, 8); // simplified random short string
+    /* ================= MD5 ================= */
+    private String md5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] hashBytes = md.digest(input.getBytes(StandardCharsets.UTF_8));
+            return bytesToHex(hashBytes);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("MD5 algorithm not found");
+        }
+    }
+
+    /* ================= SHA-256 ================= */
+    private String sha256(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = md.digest(input.getBytes(StandardCharsets.UTF_8));
+            return bytesToHex(hashBytes);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("SHA-256 algorithm not found");
+        }
+    }
+
+    /* ================= CRC32 / ADLER32 ================= */
+    private String checksum(String url, Checksum checksum) {
+        byte[] bytes = url.getBytes(StandardCharsets.UTF_8);
+        checksum.update(bytes, 0, bytes.length);
+        return Long.toHexString(checksum.getValue());
+    }
+
+    /* ================= BASE62 (Random) ================= */
+    private String randomBase62(int length) {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            sb.append(BASE62.charAt(random.nextInt(BASE62.length())));
+        }
+        return sb.toString();
+    }
+
+    /* ================= HELPER METHODS ================= */
+
+    private String bytesToHex(byte[] bytes) {
+        StringBuilder hex = new StringBuilder(bytes.length * 2);
+        for (byte b : bytes) {
+            String s = Integer.toHexString(0xff & b);
+            if (s.length() == 1) {
+                hex.append('0');
+            }
+            hex.append(s);
+        }
+        return hex.toString();
     }
 }

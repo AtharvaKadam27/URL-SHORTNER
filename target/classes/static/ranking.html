@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Rankings - URL Shortener</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="background">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+
+    <div class="container ranking-page">
+      <div class="glass-card ranking-card">
+        <div class="ranking-header">
+          <div class="header-icon">
+            <i class="fas fa-trophy"></i>
+          </div>
+          <h4>URL Rankings</h4>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-link"></i>
+            </div>
+            <div class="stat-content">
+              <span id="totalUrls" class="stat-value">0</span>
+              <span class="stat-label">Total URLs</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon clicks">
+              <i class="fas fa-mouse-pointer"></i>
+            </div>
+            <div class="stat-content">
+              <span id="totalClicks" class="stat-value">0</span>
+              <span class="stat-label">Total Clicks</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon average">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="stat-content">
+              <span id="avgClicks" class="stat-value">0</span>
+              <span class="stat-label">Avg Clicks</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Algorithm Info -->
+        <div class="algorithm-info">
+          <div class="algo-badge">
+            <i class="fas fa-code"></i>
+            <span>DSA: Min-Heap (Priority Queue) - O(n log k)</span>
+          </div>
+        </div>
+
+        <!-- Ranking Table -->
+        <div class="ranking-table-container">
+          <table class="ranking-table">
+            <thead>
+              <tr>
+                <th class="rank-col">Rank</th>
+                <th class="url-col">Short URL</th>
+                <th class="original-col">Original URL</th>
+                <th class="clicks-col">Clicks</th>
+              </tr>
+            </thead>
+            <tbody id="rankingBody">
+              <!-- Rankings will be inserted here -->
+            </tbody>
+          </table>
+
+          <div id="emptyState" class="empty-state hidden">
+            <i class="fas fa-inbox"></i>
+            <p>No URLs have been shortened yet</p>
+            <a href="/" class="action-btn accent">Create Your First URL</a>
+          </div>
+
+          <div id="loading" class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading rankings...</p>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="ranking-actions">
+          <button class="action-btn secondary" onclick="refreshRankings()">
+            <i class="fas fa-sync-alt"></i>
+            Refresh
+          </button>
+          <a href="/" class="action-btn accent">
+            <i class="fas fa-plus"></i>
+            Shorten New URL
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script src="ranking.js"></script>
+  </body>
+</html>
